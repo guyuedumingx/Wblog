@@ -15,8 +15,7 @@ public class GetEssayServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         Essay essay = (Essay)session.getAttribute("essay");
-        System.out.println(essay.getTitle());
-
+        response.setCharacterEncoding("UTF-8");
         Map<String,Object> map = new HashMap<>();
         map.put("title",essay.getTitle());
         map.put("content",essay.getContent());

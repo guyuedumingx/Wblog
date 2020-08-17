@@ -59,7 +59,6 @@
     </div>
     <script>
         $.get("getEssayServlet",function (data) {
-            alert(data.title)
             $("#title").text(data.title)
             $("#content").append(data.content)
         },"json")

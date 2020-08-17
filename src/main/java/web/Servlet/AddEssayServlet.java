@@ -32,7 +32,6 @@ public class AddEssayServlet extends HttpServlet {
         }else {
             map.put("isSuccess",false);
         }
-        System.out.println(map.get("isSuccess"));
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getWriter(),map);
         session.setAttribute("essay",essayBack);
