@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script src="/lib/jquery-3.5.1.min.js"></script>
+    <script src="/lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script>
+        $(function() {
+            var data;
+            $("#email").blur(function() {
+                var email = $(this).val()
+                $.get("emailServlet",{email:email},function(databack) {
+                    data = databack
+                    if(data.isExsit) {
+                        $("#email").attr("class","form-control bg-danger")
+                    } else {
+                        $("#email").attr("class","form-control bg-success")
+                    }
+                },"json")
+            })
+            $("#submit").click(function () {
+                var email = $("#email").val()
+                var username = $("#username").val()
+                var password = $("#password").val()
+                if(email=='' || username=='' || password=='') {
+                    alert("something wrong")
+                }
+                if (!data.isExsit) {
+                    $.get("registerServlet", {email: email, username: username, password: password}, function (data) {
+                        if (data.isSuccess) {
+                            window.location.href = "login.html"
+                        }
+                    }, "json")
+                } else {
+                    alert("Email address has Exsit! Please change an address")
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+   <div class="container">
+     <div class="row center-block" style="margin-top: 150px;">
+       <div class="col-md-4"></div>
+    <div class="card col-md-4 text-white bg-light">
+    <div class="card-body">
+        <h4 class="card-title text-black-50">Register</h4>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Email" id="email">
+        <hr class="my-2">
+        <input type="text" class="form-control" placeholder="User Name" id="username">
+        <hr class="my-2">
+        <input type="password" class="form-control" placeholder="Password" id="password">
+        <hr class="my-2">
+        <button id="submit" type="submit" class="bg-success col-md-12">Submit</button>
+        </div>
+    </div>
+    </div>
+</div>
+</div> 
+</body>
+</html>

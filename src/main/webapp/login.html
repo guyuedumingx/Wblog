@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="/lib/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="/lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script>
+        $(function() {
+            var data;
+            $("#email").blur(function() {
+                var email = $(this).val()
+                $.get("findUserServlet",{email:email},function(databack) {
+                    data = databack;
+                    if(data.userExsit) {
+                        $("#email").attr("class","form-control bg-success")
+                    } else {
+                        $("#email").attr("class","form-control bg-danger")
+                    }
+                },"json")
+            })
+            $("#login").click(function () {
+                var email = $("#email").val()
+                var password = $("#password").val()
+                if(!data.userExsit) {
+                    alert("No this User")
+                } else {
+                    $.get("loginServlet", {email: email, password: password}, function (databack) {
+                        if (databack.isSuccess) {
+                            window.location.href = "user.html"
+                        } else {
+                            alert("wrong password")
+                        }
+                    }, "json")
+                }
+            })
+        });
+    </script>
+</head>
+<body>
+   <div class="container">
+     <div class="row center-block" style="margin-top: 150px;">
+       <div class="col-md-4"></div>
+    <div class="card col-md-4 text-white bg-light">
+    <div class="card-body">
+        <h4 class="card-title text-black-50">Login</h4>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Email" id="email">
+        <hr class="my-2">
+        <input type="password" class="form-control" placeholder="Password" id="password">
+        <hr class="my-2">
+        <a href="register.html" class="card-link text-black-50 float-left">Register</a>
+        <a id="login" href="#" class="card-link text-black-50 float-right">Submit</a>
+        </div>
+    </div>
+    </div>
+</div>
+</div> 
+</body>
+</html>
