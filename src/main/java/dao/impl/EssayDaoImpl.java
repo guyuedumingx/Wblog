@@ -5,6 +5,8 @@ import domain.Essay;
 import utils.JDBCUtils;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 public class EssayDaoImpl implements EssayDao {
@@ -41,14 +43,17 @@ public class EssayDaoImpl implements EssayDao {
     }
 
     @Override
-    public boolean addEssay(Essay essay) {
+    public int addEssay(Essay essay) throws SQLException {
         String sql = "insert into essay values (null,?,?,?,null,null)";
-        pstmt = JDBCUtils.getStatement(sql);
+        pstmt = JDBCUtils.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         JDBCUtils.setInt(pstmt,1,essay.getUser_id());
         JDBCUtils.setString(pstmt,2,essay.getTitle());
         JDBCUtils.setString(pstmt,3,essay.getContent());
-        count = JDBCUtils.update(pstmt);
-        return count== 0 ? false : true;
+        count = pstmt.executeUpdate();
+        ResultSet rs = pstmt.getGeneratedKeys();
+        rs.next();
+        int id = rs.getInt(1);
+        return id;
     }
 
     @Override

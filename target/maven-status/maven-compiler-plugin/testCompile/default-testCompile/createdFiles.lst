@@ -1,2 +1,4 @@
+Service/EssayServiceTest.class
 Dao/UserDaoTest.class
+Dao/EssayDaoTest.class
 Service/UserServiceTest.class

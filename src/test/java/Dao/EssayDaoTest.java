@@ -13,12 +13,6 @@ public class EssayDaoTest {
 
 
     @Test
-    public void addEssayTest() {
-        Essay essay = new Essay(100001," goole film", "heiheihei");
-        dao.addEssay(essay);
-    }
-
-    @Test
     public void getEssayTest() {
         List<Essay> essays = dao.getEssays();
     }

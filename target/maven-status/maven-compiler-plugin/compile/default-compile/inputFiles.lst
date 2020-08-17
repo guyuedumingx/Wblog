@@ -5,11 +5,17 @@
 /home/harden/IdeaProjects/WBlog/src/main/java/dao/impl/EssayDaoImpl.java
 /home/harden/IdeaProjects/WBlog/src/main/java/dao/EssayDao.java
 /home/harden/IdeaProjects/WBlog/src/main/java/domain/User.java
+/home/harden/IdeaProjects/WBlog/src/main/java/service/EssayService.java
+/home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/ExitServlet.java
+/home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/UserServlet.java
+/home/harden/IdeaProjects/WBlog/src/main/java/service/impl/EssayServiceImpl.java
 /home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/FollowServlet.java
 /home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/FindUserServlet.java
+/home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/GetEssayServlet.java
 /home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/RegisterServlet.java
 /home/harden/IdeaProjects/WBlog/src/main/java/domain/Essay.java
 /home/harden/IdeaProjects/WBlog/src/main/java/dao/impl/UserDaoImpl.java
 /home/harden/IdeaProjects/WBlog/src/main/java/service/impl/UserServiceImpl.java
+/home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/AddEssayServlet.java
 /home/harden/IdeaProjects/WBlog/src/main/java/utils/JDBCUtils.java
 /home/harden/IdeaProjects/WBlog/src/main/java/utils/Settings.java

@@ -5,6 +5,7 @@ import dao.impl.EssayDaoImpl;
 import domain.Essay;
 import service.EssayService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class EssayServiceImpl implements EssayService {
@@ -29,9 +30,15 @@ public class EssayServiceImpl implements EssayService {
     }
 
     @Override
-    public boolean addEssay(Essay essay) {
-        boolean isSuccess = dao.addEssay(essay);
-        return isSuccess;
+    public Essay addEssay(Essay essay) {
+        Essay essayBack = null;
+        try {
+            int essay_id = dao.addEssay(essay);
+            essayBack = dao.getEssay(essay_id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return essayBack;
     }
 
     @Override

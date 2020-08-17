@@ -1,6 +1,7 @@
 package Service;
 
 import dao.impl.UserDaoImpl;
+import domain.Essay;
 import org.junit.Test;
 import service.UserService;
 import service.impl.UserServiceImpl;
@@ -36,4 +37,5 @@ public class UserServiceTest {
     public void emailExsitTest() {
         boolean emailExsit = service.isEmailExsit(email);
     }
+
 }
