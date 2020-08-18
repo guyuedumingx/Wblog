@@ -11,27 +11,43 @@
     <script src="/lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script>
         var data;
-        $.get("indexServlet",{current:1},function (back) {
-            data = back;
-            var essayList = data.essays
-            var current = data.current
-            for (i in essayList)  {
-                var essay = jQuery.parseJSON(essayList[i]);
-                var title = "<h4>" + essay.title + "</h4>"
-                var content = "<p>" + essay.content + "</p>"
-                $("#essay_box").append("<hr>")
-                $("#essay_box").append(title)
-                $("#essay_box").append(content)
-                $("#essay_box").append('<button type=\"button\" class=\"btn btn-secondary\">Star</button>')
-                $("#essay_box").append('<div class="float-right">\n                <button type="button" class="btn btn-warning">Fork</button>\n                <button type="button" class="btn btn-info">Send</button>\n                </div>')
-                $("#essay_box").append()
-                $("#essay_box").append()
-            }
-        },"json");
+        var current = 1;
+        begin(current);
+        function begin(current) {
+            $.get("indexServlet",{current:current},function (back) {
+                data = back;
+                var essayList = data.essays
+                var current = data.current
+                for (i in essayList)  {
+                    var essay = jQuery.parseJSON(essayList[i]);
+                    var title = "<h4>" + essay.title + "</h4>"
+                    var content = "<p>" + essay.content + "</p>"
+                    $("#box").append('<div class="essay_box"></div>')
+                    $(".essay_box").append("<hr>")
+                    $(".essay_box").append(title)
+                    $(".essay_box").append(content)
+                    $(".essay_box").append('<button type=\"button\" class=\"btn btn-secondary\">Star</button>')
+                    $(".essay_box").append('<div class="float-right">\n<button type="button" class="btn btn-warning">Fork</button>\n<button type="button" class="btn btn-info">Send</button>\n</div>')
+                }
+            },"json");
+        }
+        $(function () {
+            $("#box").after("<hr>\n <button id=\"previous\" type=\"button\" class=\"btn btn-info \"><span aria-hidden=\"true\">&larr;</span>Previous</button>\n<button id=\"next\" type=\"button\" class=\"btn btn-info float-right\">Next <span aria-hidden=\"true\">&rarr;</span></button>\n </div>")
+            $("#next").click(function () {
+                if(current == data.pages) {
+                    $(this).addClass("disabled")
+                } else {
+                    current = current + 1;
+                    alert(current)
+                    begin()
+                }
+            })
+            $("#")
+        })
     </script>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
         <a class="navbar-brand" href="#">WBLOG</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,28 +81,7 @@
         <div class="row">
         <div class="col-md-2 col-sm-0"></div>
         <div class="col-md-8 col-sm-12">
-            <div id="essay_box">
-                <hr>
-                <h4>Google Hei Hei Hei </h4>
-                <p>最近腾讯出事了，几个游戏道具商人，为了套取游戏礼包码去销售，
-                    胆大包天，冒充老干妈的市场经营部经理，和腾讯签了一千多万的合同。 
-                    因迟迟不兑付广告费，腾讯告老干妈拖欠广告款，登上热搜后事件马上翻转，
-                    被警方证实跟老干妈签的广告合同是假的，才反应过来上当。 敲重点了，
-                    “游戏礼包码”，这次的码是QQ飞车，我不玩QQ飞车，就拿以前玩的另一款游戏来聊这个事吧。
-                    虽然这三人是要进去了，但倒卖游戏礼包码的销售链条并没有牵连进本案。 
-                    这让我想起来10年前的一个事。
-                </p>
-                <button type="button" class="btn btn-secondary">Star</button>
-                <div class="float-right">
-                <button type="button" class="btn btn-warning">Fork</button>
-                <button type="button" class="btn btn-info">Send</button>
-                </div>
-              </div>
-            <div>
-                <hr>
-                  <button type="button" class="btn btn-info"><span aria-hidden="true">&larr;</span>Previous</button>
-                  <button type="button" class="btn btn-info float-right">Next <span aria-hidden="true">&rarr;</span></button>
-              </div>
+            <div id="box"><div>
         </div>
     </div>
     </div>
