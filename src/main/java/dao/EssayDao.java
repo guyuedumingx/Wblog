@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface EssayDao {
     public Essay getEssay(int essay_id);
+    public List<Integer> getEssaysId();
+    public List<Essay> getEssaysIdFromPage(int page);
     public List<Essay> getEssays();
     public List<Essay> getEssays(int user_id);
     public int addEssay(Essay essay) throws SQLException;

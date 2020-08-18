@@ -4,7 +4,6 @@ import dao.EssayDao;
 import dao.impl.EssayDaoImpl;
 import domain.Essay;
 import service.EssayService;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -27,6 +26,12 @@ public class EssayServiceImpl implements EssayService {
     public List<Essay> getEssays(int user_id) {
         List<Essay> essays = dao.getEssays(user_id);
         return essays;
+    }
+
+    @Override
+    public List<Essay> getEssaysFromPage(int page) {
+        List<Essay> essaysIdFromPage = dao.getEssaysIdFromPage(page);
+        return essaysIdFromPage;
     }
 
     @Override

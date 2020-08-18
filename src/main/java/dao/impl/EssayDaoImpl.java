@@ -3,6 +3,8 @@ package dao.impl;
 import dao.EssayDao;
 import domain.Essay;
 import utils.JDBCUtils;
+import utils.Settings;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,6 +29,28 @@ public class EssayDaoImpl implements EssayDao {
     public List<Essay> getEssays() {
         String sql = "select * from essay";
         pstmt = JDBCUtils.getStatement(sql);
+        ResultSet rs = JDBCUtils.query(pstmt);
+        List<Essay> list = JDBCUtils.getEssayFromResultSet(rs);
+        return list;
+    }
+
+    @Override
+    public List<Integer> getEssaysId() {
+        String sql = "select essay_id from essay";
+        pstmt = JDBCUtils.getStatement(sql);
+        ResultSet rs = JDBCUtils.query(pstmt);
+        List<Integer> list = JDBCUtils.getIntegerFromResultSet(rs, "essay_id");
+        return list;
+    }
+
+    @Override
+    public List<Essay> getEssaysIdFromPage(int page) {
+        int number = Settings.essay_number_for_eachPage;
+        int begin = (page - 1) * number;
+        String sql = "select * from essay limit ?, ?";
+        pstmt = JDBCUtils.getStatement(sql);
+        JDBCUtils.setInt(pstmt,1,begin);
+        JDBCUtils.setInt(pstmt,2,number);
         ResultSet rs = JDBCUtils.query(pstmt);
         List<Essay> list = JDBCUtils.getEssayFromResultSet(rs);
         return list;
