@@ -8,6 +8,7 @@ import java.util.List;
 public interface EssayDao {
     public Essay getEssay(int essay_id);
     public List<Integer> getEssaysId();
+    public int getEssaysTotalNumber();
     public List<Essay> getEssaysIdFromPage(int page);
     public List<Essay> getEssays();
     public List<Essay> getEssays(int user_id);

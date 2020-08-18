@@ -1,5 +1,10 @@
 package domain;
 
+import service.impl.EssayServiceImpl;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class Essay {
     private int essay_id;
     private int user_id;

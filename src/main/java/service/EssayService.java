@@ -10,6 +10,7 @@ public interface EssayService {
     public List<Essay> getEssays(int user_id);
     public Essay addEssay(Essay essay);
     public List<Essay> getEssaysFromPage(int page);
+    public int getEssaysTotalNumber();
     public boolean delEssay(int essay_id);
     public boolean addStar(int essay_id, int user_id);
     public int getStar(int essay_id);

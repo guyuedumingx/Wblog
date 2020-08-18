@@ -35,6 +35,15 @@ public class EssayDaoImpl implements EssayDao {
     }
 
     @Override
+    public int getEssaysTotalNumber() {
+        String sql = "select count(essay_id) total from essay";
+        pstmt = JDBCUtils.getStatement(sql);
+        ResultSet rs = JDBCUtils.query(pstmt);
+        int integer = JDBCUtils.getInteger(rs);
+        return integer;
+    }
+
+    @Override
     public List<Integer> getEssaysId() {
         String sql = "select essay_id from essay";
         pstmt = JDBCUtils.getStatement(sql);
@@ -75,8 +84,7 @@ public class EssayDaoImpl implements EssayDao {
         JDBCUtils.setString(pstmt,3,essay.getContent());
         count = pstmt.executeUpdate();
         ResultSet rs = pstmt.getGeneratedKeys();
-        rs.next();
-        int id = rs.getInt(1);
+        int id = JDBCUtils.getInteger(rs);
         return id;
     }
 
@@ -96,8 +104,8 @@ public class EssayDaoImpl implements EssayDao {
         pstmt = JDBCUtils.getStatement(sql);
         JDBCUtils.setInt(pstmt,1,essay_id);
         ResultSet rs = JDBCUtils.query(pstmt);
-        List<Integer> list = JDBCUtils.getIntegerFromResultSet(rs,"star");
-        return list.isEmpty() ? 0 : list.get(0);
+        int integer = JDBCUtils.getInteger(rs);
+        return integer;
     }
 
     @Override

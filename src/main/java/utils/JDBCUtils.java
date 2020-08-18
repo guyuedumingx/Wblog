@@ -201,4 +201,17 @@ public class JDBCUtils {
         }
         return list;
     }
+
+    public static int getInteger(ResultSet rs) {
+        Integer anInt = null;
+        try {
+            rs.next();
+            anInt = rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            close(rs);
+        }
+       return anInt;
+    }
 }

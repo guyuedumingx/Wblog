@@ -35,6 +35,11 @@ public class EssayServiceImpl implements EssayService {
     }
 
     @Override
+    public int getEssaysTotalNumber() {
+       return dao.getEssaysTotalNumber();
+    }
+
+    @Override
     public Essay addEssay(Essay essay) {
         Essay essayBack = null;
         try {
