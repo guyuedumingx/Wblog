@@ -58,9 +58,26 @@
         </div>
     </div>
     <script>
-        $.get("getEssayServlet",function (data) {
+        $.get("getEssayServlet",function(data) {
             $("#title").text(data.title)
             $("#content").append(data.content)
+            $(".float-right").after("<hr>\n <button id=\"previous\" type=\"button\" class=\"btn btn-info \"><span aria-hidden=\"true\">&larr;</span>Previous</button>\n<button id=\"next\" type=\"button\" class=\"btn btn-info float-right\">Next <span aria-hidden=\"true\">&rarr;</span></button>\n </div>")
+            $("#next").click(function () {
+                if(current == data.pages) {
+                    $(this).addClass("disabled")
+                } else {
+                    $.get("indexServlet",{method:"next"})
+                    window.location.reload();
+                }
+            })
+            $("#previous").click(function () {
+                if(current == 1) {
+                    $(this).addClass("disabled")
+                } else {
+                    $.get("indexServlet",{method:"previous"})
+                    window.location.reload();
+                }
+            })
         },"json")
     </script>
 </body>

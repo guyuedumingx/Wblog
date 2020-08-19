@@ -11,25 +11,43 @@
     <script src="/lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <script>
         var data;
-        var current = 1;
-        begin(current);
-        function begin(current) {
-            $.get("indexServlet",{current:current},function (back) {
-                data = back;
-                var essayList = data.essays
-                var current = data.current
-                for (i in essayList)  {
-                    var essay = jQuery.parseJSON(essayList[i]);
-                    var title = "<h4>" + essay.title + "</h4>"
-                    var content = "<p>" + essay.content + "</p>"
-                    $("#box").append('<div class="essay_box"></div>')
-                    $(".essay_box").append("<hr>")
-                    $(".essay_box").append(title)
-                    $(".essay_box").append(content)
-                    $(".essay_box").append('<button type=\"button\" class=\"btn btn-secondary\">Star</button>')
-                    $(".essay_box").append('<div class="float-right">\n<button type="button" class="btn btn-warning">Fork</button>\n<button type="button" class="btn btn-info">Send</button>\n</div>')
-                }
-            },"json");
+        var current
+        $.get("indexServlet",{method:"index"},function (back) {
+            data = back;
+            var essayList = data.essays
+            current = data.current
+            for (i in essayList)  {
+                var essay = jQuery.parseJSON(essayList[i]);
+                var title = "<h4>" + essay.title + "</h4>"
+                var content = "<p>" + fold(essay.content) + "</p>"
+                var id = essay.essay_id
+                var div = '<div id="' + id + '"></div>'
+                var essayDiv = '<div class="essay"></div>'
+                $("#box").append(div)
+                $("#"+id).append(essayDiv)
+                $("#"+id+" :first").append("<hr>")
+                $("#"+id+" :first").append(title)
+                $("#"+id+" :first").append(content)
+                $("#"+id).append('<button type=\"button\" class=\"btn btn-secondary star\">Star</button>')
+                $("#"+id).append('<div class="float-right">\n<button type="button" class="btn btn-warning">Fork</button>\n<button type="button" class="btn btn-info">Send</button>\n</div>')
+                addClick(id)
+            }
+        },"json");
+
+        function fold(content) {
+            if(content.length> 300)
+                return content.substring(0,300)
+            else
+                return content
+        }
+
+        function addClick(id) {
+            $.ajaxSettings.async = false;
+            $("#"+id+" :first").click(function () {
+                $.get("indexServlet",{method:"toEssay",id:id})
+                window.location.href="show_article.html"
+            })
+            $.ajaxSettings.async = true;
         }
         $(function () {
             $("#box").after("<hr>\n <button id=\"previous\" type=\"button\" class=\"btn btn-info \"><span aria-hidden=\"true\">&larr;</span>Previous</button>\n<button id=\"next\" type=\"button\" class=\"btn btn-info float-right\">Next <span aria-hidden=\"true\">&rarr;</span></button>\n </div>")
@@ -37,13 +55,39 @@
                 if(current == data.pages) {
                     $(this).addClass("disabled")
                 } else {
-                    current = current + 1;
-                    alert(current)
-                    begin()
+                   $.get("indexServlet",{method:"next"})
+                    window.location.reload();
                 }
             })
-            $("#")
+            $("#previous").click(function () {
+                if(current == 1) {
+                    $(this).addClass("disabled")
+                } else {
+                    $.get("indexServlet",{method:"previous"})
+                    window.location.reload();
+                }
+            })
         })
+        function star(it) {
+            alert(it.parents())
+            $.get("indexServlet",{method:"star",id:id},function (starInfo) {
+                var flag = starInfo.flag;
+                var isSuccess = starInfo.isSuccess;
+                alert(flag)
+                alert(isSuccess)
+                if(isSuccess){
+                    if(flag){
+                        $(this).removeClass("btn-secondary");
+                        $(this).addClass("btn-success");
+                    }else {
+                        $(this).removeClass("btn-success");
+                        $(this).addClass("btn-secondary");
+                    }
+                }else {
+                    window.location.href = "login.html"
+                }
+            },"json")
+        }
     </script>
 </head>
 <body>
@@ -81,7 +125,7 @@
         <div class="row">
         <div class="col-md-2 col-sm-0"></div>
         <div class="col-md-8 col-sm-12">
-            <div id="box"><div>
+            <div id="box"></div>
         </div>
     </div>
     </div>

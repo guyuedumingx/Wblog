@@ -52,13 +52,10 @@ public class EssayServiceImpl implements EssayService {
     }
 
     @Override
-    public boolean delEssay(int essay_id) {
-        return false;
-    }
-
-    @Override
-    public boolean addStar(int essay_id, int user_id) {
+    public boolean toggleStar(int essay_id, int user_id) {
         boolean isSuccess = dao.addStar(essay_id,user_id);
+        if(!isSuccess)
+            dao.delStar(essay_id,user_id);
         return isSuccess;
     }
 

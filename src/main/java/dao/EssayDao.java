@@ -15,5 +15,6 @@ public interface EssayDao {
     public int addEssay(Essay essay) throws SQLException;
     public int getStar(int essay_id);
     public boolean addStar(int essay_id, int user_id);
+    public boolean delStar(int essay_id, int user_id);
     public boolean addFavorite(int essay_id, int favorite_id);
 }

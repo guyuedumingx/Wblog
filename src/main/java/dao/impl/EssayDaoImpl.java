@@ -99,6 +99,16 @@ public class EssayDaoImpl implements EssayDao {
     }
 
     @Override
+    public boolean delStar(int essay_id, int user_id) {
+        String sql = "delete from star where essay_id = ? && user_id = ?";
+        pstmt = JDBCUtils.getStatement(sql);
+        JDBCUtils.setInt(pstmt,1,essay_id);
+        JDBCUtils.setInt(pstmt,2,user_id);
+        count = JDBCUtils.update(pstmt);
+        return count== 0 ? false : true;
+    }
+
+    @Override
     public int getStar(int essay_id) {
         String sql = "select count(user_id) star from star where essay_id = ?";
         pstmt = JDBCUtils.getStatement(sql);
