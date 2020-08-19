@@ -12,7 +12,7 @@
             var data;
             $("#email").blur(function() {
                 var email = $(this).val()
-                $.get("emailServlet",{email:email},function(databack) {
+                $.get("registerServlet",{method:"findEmail",email:email},function(databack) {
                     data = databack
                     if(data.isExsit) {
                         $("#email").attr("class","form-control bg-danger")
@@ -29,7 +29,7 @@
                     alert("something wrong")
                 }
                 if (!data.isExsit) {
-                    $.get("registerServlet", {email: email, username: username, password: password}, function (data) {
+                    $.get("registerServlet", {method:"register",email: email, username: username, password: password}, function (data) {
                         if (data.isSuccess) {
                             window.location.href = "login.html"
                         }

@@ -19,4 +19,5 @@ public interface EssayDao {
     public boolean addFavorite(int essay_id, int favorite_id);
     public List<Integer> getNext(int essay_id);
     public List<Integer> getPrevious(int essay_id);
+    public List<Integer> getStarEssaysList(int user_id);
 }

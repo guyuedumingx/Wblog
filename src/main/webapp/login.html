@@ -14,7 +14,7 @@
             var data;
             $("#email").blur(function() {
                 var email = $(this).val()
-                $.get("findUserServlet",{email:email},function(databack) {
+                $.get("loginServlet",{method:"findUser",email:email},function(databack) {
                     data = databack;
                     if(data.userExsit) {
                         $("#email").attr("class","form-control bg-success")
@@ -29,7 +29,7 @@
                 if(!data.userExsit) {
                     alert("No this User")
                 } else {
-                    $.get("loginServlet", {email: email, password: password}, function (databack) {
+                    $.get("loginServlet", {method:"login",email: email, password: password}, function (databack) {
                         if (databack.isSuccess) {
                             window.location.href = "user.html"
                         } else {

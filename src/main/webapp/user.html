@@ -12,16 +12,63 @@
       <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <script>
         function setExit() {
-            $.get("exitServlet")
+            $.get("userServlet",{method:"exit"})
         }
-        $.get("userServlet", {}, function (data) {
+        $.get("userServlet", {method:"index"}, function (data) {
             if(data == null) {
                 window.location.href = "login.html"
             }
             $("#username").text(data.username)
             $("#email").text(data.email)
             $("#icon").prop("src",data.img_url)
+            getStar();
         },"json");
+        function getStar() {
+            $.get("userServlet",{method:"star"}, function (list) {
+                var info = jQuery.parseJSON(list);
+                for(i in info) {
+                    var essay = info[i];
+                    var title = "<h4>" + essay.title + "</h4>"
+                    var content = "<p>" + fold(essay.content) + "</p>"
+                    var id = essay.essay_id
+                    var div = '<div id="' + id + '"></div>'
+                    var essayDiv = '<div class="essay" style="cursor:pointer"></div>'
+                    $("#box").append(div)
+                    $("#"+id).append(essayDiv)
+                    $("#"+id+" :first").append("<hr>")
+                    $("#"+id+" :first").append(title)
+                    $("#"+id+" :first").append(content)
+                    $("#"+id).append('<button id="'+"star"+id+'" type=\"button\" class=\"btn btn-success\">Star</button>')
+                    $("#"+id).append('<div class="float-right">\n<button type="button" class="btn btn-warning">Fork</button>\n<button type="button" class="btn btn-info">Send</button>\n</div>')
+                    addClick(id)
+                }
+            })
+        }
+
+        function fold(content) {
+            if(content.length> 300)
+                return content.substring(0,300)
+            else
+                return content
+        }
+        function addClick(id) {
+            $.ajaxSettings.async = false;
+            $("#"+id+" :first").click(function () {
+                $.get("indexServlet",{method:"toEssay",id:id})
+                window.location.href="show_article.html"
+            })
+            $.ajaxSettings.async = true;
+            $("#"+id+" :first").next().click(function () {
+                $(this).toggleClass("btn-secondary")
+                $(this).toggleClass("btn-success")
+                $.get("toolServlet",{method:"star",id:id},function (starInfo) {
+                    var isSuccess = starInfo.isSuccess;
+                    if(!isSuccess){
+                        window.location.href = "login.html"
+                    }
+                },"json")
+            })
+        }
     </script>
   </head>
   <body>
@@ -83,42 +130,10 @@
             </div>
         </div>
         <div class="col-md-6 col-sm-12">
-            <div>
-            <hr>
-            <h4>Google Hei Hei Hei </h4>
-            <p>最近腾讯出事了，几个游戏道具商人，为了套取游戏礼包码去销售，
-                胆大包天，冒充老干妈的市场经营部经理，和腾讯签了一千多万的合同。 
-                因迟迟不兑付广告费，腾讯告老干妈拖欠广告款，登上热搜后事件马上翻转，
-                被警方证实跟老干妈签的广告合同是假的，才反应过来上当。 敲重点了，
-                “游戏礼包码”，这次的码是QQ飞车，我不玩QQ飞车，就拿以前玩的另一款游戏来聊这个事吧。
-                虽然这三人是要进去了，但倒卖游戏礼包码的销售链条并没有牵连进本案。 
-                这让我想起来10年前的一个事。
-            </p>
-            <button type="button" class="btn btn-success">Star</button>
-            <div class="float-right">
-            <button type="button" class="btn btn-warning">Fork</button>
-            <button type="button" class="btn btn-info">Send</button>
-            </div>
-            </div>
-            <div>
-            <hr>
-            <h4>Google Hei Hei Hei </h4>
-            <p>最近腾讯出事了，几个游戏道具商人，为了套取游戏礼包码去销售，
-                胆大包天，冒充老干妈的市场经营部经理，和腾讯签了一千多万的合同。 
-                因迟迟不兑付广告费，腾讯告老干妈拖欠广告款，登上热搜后事件马上翻转，
-                被警方证实跟老干妈签的广告合同是假的，才反应过来上当。 敲重点了，
-                “游戏礼包码”，这次的码是QQ飞车，我不玩QQ飞车，就拿以前玩的另一款游戏来聊这个事吧。
-                虽然这三人是要进去了，但倒卖游戏礼包码的销售链条并没有牵连进本案。 
-                这让我想起来10年前的一个事。
-            </p>
-            <button type="button" class="btn btn-success">Star</button>
-            <div class="float-right">
-            <button type="button" class="btn btn-warning">Fork</button>
-            <button type="button" class="btn btn-info">Send</button>
+            <div id="box">
             </div>
             </div>
         </div>
         </div>
-    </div>
   </body>
 </html>

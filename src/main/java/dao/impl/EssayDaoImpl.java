@@ -145,4 +145,14 @@ public class EssayDaoImpl implements EssayDao {
         List<Integer> list = JDBCUtils.getIntegerFromResultSet(rs,"essay_id");
         return list;
     }
+
+    @Override
+    public List<Integer> getStarEssaysList(int user_id) {
+       String sql = "select essay_id from star where user_id = ?";
+       pstmt = JDBCUtils.getStatement(sql);
+       JDBCUtils.setInt(pstmt,1,user_id);
+       ResultSet rs = JDBCUtils.query(pstmt);
+       List<Integer> essay_id = JDBCUtils.getIntegerFromResultSet(rs, "essay_id");
+       return essay_id;
+    }
 }

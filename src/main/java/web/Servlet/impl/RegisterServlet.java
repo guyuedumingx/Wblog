@@ -3,6 +3,7 @@ package web.Servlet.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import service.UserService;
 import service.impl.UserServiceImpl;
+import web.Servlet.BaseSerlvet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @WebServlet("/registerServlet")
-public class RegisterServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+public class RegisterServlet extends BaseSerlvet {
+    public void register (HttpServletRequest request,HttpServletResponse response) throws IOException {
         String email = request.getParameter("email");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -33,8 +34,19 @@ public class RegisterServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getWriter(),map);
     }
+    public void findEmail(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String email = request.getParameter("email");
+        UserService service = new UserServiceImpl();
+        boolean emailExsit = service.isEmailExsit(email);
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        this.doPost(request, response);
+        Map<String,Object> map = new HashMap<>();
+        if(emailExsit) {
+            map.put("isExsit",true);
+        }
+        else {
+            map.put("isExsit",false);
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(response.getWriter(),map);
     }
 }

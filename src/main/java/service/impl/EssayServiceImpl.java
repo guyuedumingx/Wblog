@@ -5,6 +5,7 @@ import dao.impl.EssayDaoImpl;
 import domain.Essay;
 import service.EssayService;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EssayServiceImpl implements EssayService {
@@ -91,5 +92,16 @@ public class EssayServiceImpl implements EssayService {
             essay = dao.getEssay(next.get(0));
         }
         return essay;
+    }
+
+    @Override
+    public List<Essay> getStarEssays(int user_id) {
+        List<Integer> idList = dao.getStarEssaysList(user_id);
+        List<Essay> essayList = new ArrayList<>();
+        for(int id : idList) {
+            Essay essay = dao.getEssay(id);
+            essayList.add(essay);
+        }
+        return essayList;
     }
 }
