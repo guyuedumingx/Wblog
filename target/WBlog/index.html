@@ -22,13 +22,13 @@
                 var content = "<p>" + fold(essay.content) + "</p>"
                 var id = essay.essay_id
                 var div = '<div id="' + id + '"></div>'
-                var essayDiv = '<div class="essay"></div>'
+                var essayDiv = '<div class="essay" style="cursor:pointer"></div>'
                 $("#box").append(div)
                 $("#"+id).append(essayDiv)
                 $("#"+id+" :first").append("<hr>")
                 $("#"+id+" :first").append(title)
                 $("#"+id+" :first").append(content)
-                $("#"+id).append('<button type=\"button\" class=\"btn btn-secondary star\">Star</button>')
+                $("#"+id).append('<button id="'+"star"+id+'" type=\"button\" class=\"btn btn-secondary\">Star</button>')
                 $("#"+id).append('<div class="float-right">\n<button type="button" class="btn btn-warning">Fork</button>\n<button type="button" class="btn btn-info">Send</button>\n</div>')
                 addClick(id)
             }
@@ -48,6 +48,16 @@
                 window.location.href="show_article.html"
             })
             $.ajaxSettings.async = true;
+            $("#"+id+" :first").next().click(function () {
+                $(this).toggleClass("btn-secondary")
+                $(this).toggleClass("btn-success")
+                $.get("toolServlet",{method:"star",id:id},function (starInfo) {
+                    var isSuccess = starInfo.isSuccess;
+                    if(!isSuccess){
+                        window.location.href = "login.html"
+                    }
+                },"json")
+            })
         }
         $(function () {
             $("#box").after("<hr>\n <button id=\"previous\" type=\"button\" class=\"btn btn-info \"><span aria-hidden=\"true\">&larr;</span>Previous</button>\n<button id=\"next\" type=\"button\" class=\"btn btn-info float-right\">Next <span aria-hidden=\"true\">&rarr;</span></button>\n </div>")
@@ -55,7 +65,7 @@
                 if(current == data.pages) {
                     $(this).addClass("disabled")
                 } else {
-                   $.get("indexServlet",{method:"next"})
+                   $.get("toolServlet",{method:"next"})
                     window.location.reload();
                 }
             })
@@ -63,31 +73,11 @@
                 if(current == 1) {
                     $(this).addClass("disabled")
                 } else {
-                    $.get("indexServlet",{method:"previous"})
+                    $.get("toolServlet",{method:"previous"})
                     window.location.reload();
                 }
             })
         })
-        function star(it) {
-            alert(it.parents())
-            $.get("indexServlet",{method:"star",id:id},function (starInfo) {
-                var flag = starInfo.flag;
-                var isSuccess = starInfo.isSuccess;
-                alert(flag)
-                alert(isSuccess)
-                if(isSuccess){
-                    if(flag){
-                        $(this).removeClass("btn-secondary");
-                        $(this).addClass("btn-success");
-                    }else {
-                        $(this).removeClass("btn-success");
-                        $(this).addClass("btn-secondary");
-                    }
-                }else {
-                    window.location.href = "login.html"
-                }
-            },"json")
-        }
     </script>
 </head>
 <body>

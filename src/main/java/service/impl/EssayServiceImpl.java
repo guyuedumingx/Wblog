@@ -69,4 +69,27 @@ public class EssayServiceImpl implements EssayService {
     public int getStar(int essay_id) {
        return dao.getStar(essay_id);
     }
+
+    @Override
+    public Essay getNext(int essay_id) {
+        List<Integer> next = dao.getNext(essay_id);
+        Essay essay;
+        if(next.isEmpty())
+            essay = null;
+        else {
+            essay = dao.getEssay(next.get(0));
+        }
+        return essay;
+    }
+    @Override
+    public Essay getPrevious(int essay_id) {
+        List<Integer> next = dao.getNext(essay_id);
+        Essay essay;
+        if(next.isEmpty())
+            essay = null;
+        else {
+            essay = dao.getEssay(next.get(0));
+        }
+        return essay;
+    }
 }

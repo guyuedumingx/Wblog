@@ -14,5 +14,6 @@ public interface EssayService {
     public boolean toggleStar(int essay_id, int user_id);
     public int getStar(int essay_id);
     public boolean addFavorite(int essay_id, int favorite_id);
-
+    public Essay getNext(int essay_id);
+    public Essay getPrevious(int essay_id);
 }

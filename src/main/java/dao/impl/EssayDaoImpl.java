@@ -4,7 +4,6 @@ import dao.EssayDao;
 import domain.Essay;
 import utils.JDBCUtils;
 import utils.Settings;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -126,5 +125,24 @@ public class EssayDaoImpl implements EssayDao {
         JDBCUtils.setInt(pstmt,2,essay_id);
         count = JDBCUtils.update(pstmt);
         return count== 0 ? false : true;
+    }
+
+    @Override
+    public List<Integer> getNext(int essay_id) {
+        String sql = "select essay_id from essay where essay_id > ?";
+        pstmt = JDBCUtils.getStatement(sql);
+        JDBCUtils.setInt(pstmt,1,essay_id);
+        ResultSet rs = JDBCUtils.query(pstmt);
+        List<Integer> list = JDBCUtils.getIntegerFromResultSet(rs,"essay_id");
+        return list;
+    }
+    @Override
+    public List<Integer> getPrevious(int essay_id) {
+        String sql = "select essay_id from essay where essay_id < ?";
+        pstmt = JDBCUtils.getStatement(sql);
+        JDBCUtils.setInt(pstmt,1,essay_id);
+        ResultSet rs = JDBCUtils.query(pstmt);
+        List<Integer> list = JDBCUtils.getIntegerFromResultSet(rs,"essay_id");
+        return list;
     }
 }

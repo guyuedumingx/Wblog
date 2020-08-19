@@ -48,7 +48,7 @@
                     <h3 id="title">#</h3>
                     <hr>
                     <div id="content"></div>
-                    <button type="button" class="btn btn-secondary">Star</button>
+                    <button id="star" type="button" class="btn btn-secondary">Star</button>
                     <div class="float-right">
                         <button type="button" class="btn btn-warning" style="margin-right: 5px; margin-left: 10px;">Fork</button>
                         <button type="button" class="btn btn-info">Send</button>
@@ -58,27 +58,49 @@
         </div>
     </div>
     <script>
-        $.get("getEssayServlet",function(data) {
+        var data;
+        $.get("essayServlet",{method:"getEssay"},function(back) {
+
+            data = jQuery.parseJSON(back);
             $("#title").text(data.title)
             $("#content").append(data.content)
             $(".float-right").after("<hr>\n <button id=\"previous\" type=\"button\" class=\"btn btn-info \"><span aria-hidden=\"true\">&larr;</span>Previous</button>\n<button id=\"next\" type=\"button\" class=\"btn btn-info float-right\">Next <span aria-hidden=\"true\">&rarr;</span></button>\n </div>")
             $("#next").click(function () {
-                if(current == data.pages) {
-                    $(this).addClass("disabled")
-                } else {
-                    $.get("indexServlet",{method:"next"})
-                    window.location.reload();
-                }
+                $.get("essayServlet",{method:"next"},function (info) {
+                    if(info.hasNext) {
+                        window.location.reload();
+                    }
+                    else {
+                        $(this).toggleClass("btn-info");
+                        $(this).toggleClass("btn-secondary");
+                        $(this).prop("class","btn btn-secondary")
+                    }
+                },"json")
             })
             $("#previous").click(function () {
-                if(current == 1) {
-                    $(this).addClass("disabled")
-                } else {
-                    $.get("indexServlet",{method:"previous"})
-                    window.location.reload();
-                }
+                $.get("essayServlet",{method:"previous"},function (pre) {
+                    if(pre.hasPrevious) {
+                        window.location.reload();
+                    }
+                    else {
+                        $(this).toggleClass("btn-info");
+                        $(this).toggleClass("btn-secondary");
+                        $(this).prop("class","btn btn-secondary")
+                    }
+                },"json")
             })
-        },"json")
+            },"json")
+
+            $("#star").click(function () {
+            $(this).toggleClass("btn-secondary")
+            $(this).toggleClass("btn-success")
+            $.get("toolServlet",{method:"star",id:data.id},function (starInfo) {
+                var isSuccess = starInfo.isSuccess;
+                if(!isSuccess){
+                    window.location.href = "login.html"
+                }
+            },"json")
+        })
     </script>
 </body>
 </html>

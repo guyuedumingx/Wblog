@@ -54,39 +54,6 @@ public class IndexServlet extends BaseSerlvet {
         session.setAttribute("essay",essayFromId);
     }
 
-    public void next(HttpServletRequest request,HttpServletResponse response) {
-        HttpSession session = request.getSession();
-        int current = getCurrent(request);
-        int pages = (int)session.getAttribute("pages");
-        if(current<pages)
-            session.setAttribute("current",current+1);
-    }
-    public void previous(HttpServletRequest request,HttpServletResponse response) {
-        HttpSession session = request.getSession();
-        int current = getCurrent(request);
-        if(current>1)
-            session.setAttribute("current",current-1);
-    }
-    public void star(HttpServletRequest request,HttpServletResponse response) throws IOException {
-        int essay_id = Integer.valueOf(request.getParameter("id"));
-        HttpSession session = request.getSession();
-        boolean isSuccess;
-        boolean flag;
-        try {
-           User user = (User)session.getAttribute("user");
-           isSuccess = true;
-           flag = new EssayServiceImpl().toggleStar(essay_id, user.getUser_id());
-        }catch (Exception e) {
-            isSuccess = false;
-            flag = false;
-        }
-        Map<String,Object> map = new HashMap<>();
-        map.put("isSuccess",isSuccess);
-        map.put("flag",flag);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getWriter(),map);
-    }
-
     private int getCurrent(HttpServletRequest request) {
         HttpSession session = request.getSession();
         int current;
