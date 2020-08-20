@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +13,7 @@
     <script>
         var data;
         var current
-        $.get("indexServlet",{method:"index"},function (back) {
+        $.get("toolServlet",{method:"loadSearch"},function (back) {
             data = back;
             var essayList = data.essays
             current = data.current
@@ -79,10 +80,8 @@
             })
             $("#btn_search").click(function() {
                 var content = $("#content_search").val() 
-                alert(content)
-                $.get("toolServlet",{method:"search",content:content},function () {
-                    window.location.href="search.html"
-                })
+                $.get("toolServlet",{method:"search"})
+                window.location.reload()
             })
         })
     </script>

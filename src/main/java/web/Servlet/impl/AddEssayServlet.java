@@ -18,14 +18,12 @@ import java.util.Map;
 @WebServlet("/addEssayServlet")
 public class AddEssayServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("begin");
         String content = request.getParameter("essay");
         String title = request.getParameter("title");
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         Map<String,Object> map = new HashMap<>();
         Essay essayBack = null;
-        System.out.println("mindle");
         if(user != null) {
             Essay essay = new Essay(user.getUser_id(),title,content);
             EssayService service = new EssayServiceImpl();
@@ -37,7 +35,6 @@ public class AddEssayServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getWriter(),map);
         session.setAttribute("essay",essayBack);
-        System.out.println("end");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

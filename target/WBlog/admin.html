@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <script src="/lib/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="/lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script>
+        $.get("essayServlet",{method:"getEssays"},function (info) {
+            for(e in info) {
+                var essay = jQuery.parseJSON(info[e])
+                var id = essay.essay_id
+                var author = essay.user_id
+                var title = essay.title
+                var update_time = essay.update_time
+                var create_time = essay.create_time
+                $("#essay").append("<tr id='"+id+"'></tr>")
+                $("#"+id).append("<td>"+id+"</td>")
+                $("#"+id).append("<td>"+author+"</td>")
+                $("#"+id).append("<td>"+title+"</td>")
+                $("#"+id).append("<td>"+update_time+"</td>")
+                $("#"+id).append("<td>"+create_time+"</td>")
+                $("#"+id).append("<td><button class=\"btn-danger btn btn-sm\">del</button></td>")
+                addDelEssayClick(id)
+            }
+        },"json")
+        function addDelEssayClick(id) {
+           $("#"+id+" button").click(function () {
+               $.get("essayServlet",{method:"delEssay",id:id})
+               window.location.reload();
+           })
+        }
+        $.get("userServlet",{method:"getUsers"},function (back) {
+            for(e in back) {
+                var user = jQuery.parseJSON(back[e])
+                var id = user.user_id
+                var name = user.name
+                var email = user.email
+                var img_url = user.img_url
+                var create_time = user.create_time
+                $("#user").append("<tr id='user"+id+"'></tr>")
+                $("#user"+id).append("<td>"+id+"</td>")
+                $("#user"+id).append("<td>"+name+"</td>")
+                $("#user"+id).append("<td>"+email+"</td>")
+                $("#user"+id).append("<td>"+img_url+"</td>")
+                $("#user"+id).append("<td>"+create_time+"</td>")
+                $("#user"+id).append("<td><button class=\"btn-danger btn btn-sm\">del</button></td>")
+                addDelUserClick(id)
+            }
+        },"json")
+        function addDelUserClick(id) {
+            $("#user"+id+" button").click(function () {
+                $.get("userServlet",{method:"delUser",id:id})
+                window.location.reload();
+            })
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+    <table class="table table-striped table-hover">
+	<caption>Article</caption>
+	<thead>
+		<tr>
+			<th>Id</th>
+			<th>Author</th>
+            <th>Title</th>
+            <th>create_time</th>
+            <th>update_time</th>
+            <th style="width: 30px;">delete</th>
+		</tr>
+	</thead>
+	<tbody id="essay"></tbody>
+    </table>
+        <table class="table table-striped table-hover">
+            <caption>User</caption>
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Image</th>
+                <th>Create_time</th>
+                <th style="width: 30px;">delete</th>
+            </tr>
+            </thead>
+            <tbody id="user"></tbody>
+        </table>
+    </div>
+</body>
+</html>

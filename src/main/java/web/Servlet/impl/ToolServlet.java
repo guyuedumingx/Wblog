@@ -1,15 +1,20 @@
 package web.Servlet.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import domain.Essay;
 import domain.User;
+import service.EssayService;
 import service.impl.EssayServiceImpl;
+import utils.Settings;
 import web.Servlet.BaseSerlvet;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet("/toolServlet")
@@ -54,5 +59,38 @@ public class ToolServlet extends BaseSerlvet {
             current = 1;
         }
         return current;
+    }
+    public void search(HttpServletRequest request,HttpServletResponse response)throws IOException {
+        String content = request.getParameter("content");
+        HttpSession session = request.getSession();
+        session.setAttribute("content",content);
+    }
+    public void loadSearch(HttpServletRequest request,HttpServletResponse response)throws IOException {
+        HttpSession session = request.getSession();
+        String content = (String)session.getAttribute("content");
+        Map<String,Object> map = new HashMap<>();
+        List<String> list = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        EssayService service = new EssayServiceImpl();
+        session.setAttribute("current",1);
+        response.setCharacterEncoding("UTF-8");
+        List<Essay> essays = service.getEssayList(content);
+
+        int current = 1;
+        int total = essays.size();
+        int size = Settings.essay_number_for_eachPage;
+        int pages = (total % size == 0) ? total / size : (total / size + 1);
+        for (Essay e : essays) {
+            list.add(mapper.writeValueAsString(e));
+        }
+
+        map.put("total", total);
+        map.put("size", size);
+        map.put("pages", pages);
+        map.put("current", current);
+        map.put("essays", list);
+
+        session.setAttribute("pages",pages);
+        mapper.writeValue(response.getWriter(),map);
     }
 }

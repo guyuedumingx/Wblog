@@ -6,7 +6,9 @@ import domain.Essay;
 import service.EssayService;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EssayServiceImpl implements EssayService {
     EssayDao dao = new EssayDaoImpl();
@@ -103,5 +105,15 @@ public class EssayServiceImpl implements EssayService {
             essayList.add(essay);
         }
         return essayList;
+    }
+
+    @Override
+    public boolean delEssay(int essay_id) {
+        return dao.delEssay(essay_id);
+    }
+
+    @Override
+    public List<Essay> getEssayList(String content) {
+        return dao.getEssayList(content);
     }
 }

@@ -75,6 +75,15 @@ public class EssayDaoImpl implements EssayDao {
     }
 
     @Override
+    public List<Essay> getEssayList(String content) {
+       String sql = "select * from essay where title like '%"+content+"%'";
+       pstmt = JDBCUtils.getStatement(sql);
+       ResultSet query = JDBCUtils.query(pstmt);
+       List<Essay> list = JDBCUtils.getEssayFromResultSet(query);
+       return list;
+    }
+
+    @Override
     public int addEssay(Essay essay) throws SQLException {
         String sql = "insert into essay values (null,?,?,?,null,null)";
         pstmt = JDBCUtils.getConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -154,5 +163,14 @@ public class EssayDaoImpl implements EssayDao {
        ResultSet rs = JDBCUtils.query(pstmt);
        List<Integer> essay_id = JDBCUtils.getIntegerFromResultSet(rs, "essay_id");
        return essay_id;
+    }
+
+    @Override
+    public boolean delEssay(int essay_id) {
+        String sql = "delete from essay where essay_id = ?";
+        pstmt = JDBCUtils.getStatement(sql);
+        JDBCUtils.setInt(pstmt,1,essay_id);
+        count = JDBCUtils.update(pstmt);
+        return count== 0 ? false : true;
     }
 }

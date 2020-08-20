@@ -20,4 +20,6 @@ public interface EssayDao {
     public List<Integer> getNext(int essay_id);
     public List<Integer> getPrevious(int essay_id);
     public List<Integer> getStarEssaysList(int user_id);
+    public boolean delEssay(int essay_id);
+    public List<Essay> getEssayList(String content);
 }

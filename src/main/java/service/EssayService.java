@@ -3,6 +3,7 @@ package service;
 import domain.Essay;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EssayService {
     public Essay getEssayFromId(int essay_id);
@@ -17,4 +18,6 @@ public interface EssayService {
     public Essay getNext(int essay_id);
     public Essay getPrevious(int essay_id);
     public List<Essay> getStarEssays(int user_id);
+    public boolean delEssay(int essay_id);
+    public List<Essay> getEssayList(String content);
 }

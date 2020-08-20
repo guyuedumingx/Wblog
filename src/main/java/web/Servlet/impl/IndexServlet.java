@@ -2,7 +2,6 @@ package web.Servlet.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import domain.Essay;
-import domain.User;
 import service.EssayService;
 import service.impl.EssayServiceImpl;
 import utils.Settings;

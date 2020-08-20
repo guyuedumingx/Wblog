@@ -11,7 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet("/essayServlet")
@@ -50,5 +52,24 @@ public class EssayServlet extends BaseSerlvet {
         map.put("hasPrevious",previous==null?false:true);
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getWriter(),map);
+    }
+    public void getEssays(HttpServletRequest request,HttpServletResponse response)throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        EssayService service = new EssayServiceImpl();
+        List<Essay> essays = service.getEssays();
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> back = new ArrayList<>();
+
+        for(Essay e : essays) {
+            String s = mapper.writeValueAsString(e);
+            back.add(s);
+        }
+
+        mapper.writeValue(response.getWriter(),back);
+    }
+    public void delEssay(HttpServletRequest request,HttpServletResponse response)throws IOException {
+        int id =Integer.valueOf(request.getParameter("id"));
+        EssayService service = new EssayServiceImpl();
+        boolean b = service.delEssay(id);
     }
 }
