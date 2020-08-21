@@ -79,7 +79,6 @@
             })
             $("#btn_search").click(function() {
                 var content = $("#content_search").val() 
-                alert(content)
                 $.get("toolServlet",{method:"search",content:content},function () {
                     window.location.href="search.html"
                 })

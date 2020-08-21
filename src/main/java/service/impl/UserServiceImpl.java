@@ -92,4 +92,15 @@ public class UserServiceImpl implements UserService {
         User user = dao.login(email, password);
         return user;
     }
+
+    @Override
+    public void setUserImage(int user_id, String fileName) {
+        dao.setUserImage(user_id,Settings.img_path+fileName);
+    }
+
+    @Override
+    public User getUser(int user_id) {
+        User user = dao.getUser(user_id);
+        return user;
+    }
 }

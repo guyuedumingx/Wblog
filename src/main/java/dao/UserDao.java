@@ -14,6 +14,7 @@ public interface UserDao {
     public List<Integer> getFollowedIdList(int user_id);
     public boolean setUserName(int user_id, String name);
     public boolean setUserEmail(int user_id, String email);
+    public void setUserImage(int user_id, String img_url);
     public boolean addFollow(int user_id,int follow_id);
     public boolean delFollow(int user_id,int follow_id);
     public boolean setPassword(int user_id, String password);

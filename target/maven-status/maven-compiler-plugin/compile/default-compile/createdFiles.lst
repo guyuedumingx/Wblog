@@ -3,6 +3,7 @@ domain/User.class
 service/impl/UserServiceImpl.class
 web/Servlet/impl/ToolServlet.class
 web/Servlet/impl/AddEssayServlet.class
+web/Servlet/impl/UploadFileServlet.class
 web/Servlet/BaseSerlvet.class
 web/Servlet/impl/RegisterServlet.class
 web/Servlet/impl/FollowServlet.class

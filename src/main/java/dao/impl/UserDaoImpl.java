@@ -143,4 +143,13 @@ public class UserDaoImpl implements UserDao {
        List<User> list = JDBCUtils.getUserFromResultSet(rs);
        return list.isEmpty() ? null : list.get(0);
     }
+
+    @Override
+    public void setUserImage(int user_id, String img_url) {
+        String sql = "update user set img_url = ? where user_id = ?";
+        pstmt = JDBCUtils.getStatement(sql);
+        JDBCUtils.setString(pstmt,1,img_url);
+        JDBCUtils.setInt(pstmt,2,user_id);
+        JDBCUtils.update(pstmt);
+    }
 }

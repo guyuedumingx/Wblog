@@ -11,6 +11,7 @@
 /home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/impl/EssayServlet.java
 /home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/impl/ToolServlet.java
 /home/harden/IdeaProjects/WBlog/src/main/java/service/impl/EssayServiceImpl.java
+/home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/impl/UploadFileServlet.java
 /home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/impl/IndexServlet.java
 /home/harden/IdeaProjects/WBlog/src/main/java/web/Servlet/BaseSerlvet.java
 /home/harden/IdeaProjects/WBlog/src/main/java/domain/Essay.java

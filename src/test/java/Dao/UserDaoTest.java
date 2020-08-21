@@ -4,7 +4,6 @@ import dao.UserDao;
 import dao.impl.UserDaoImpl;
 import domain.User;
 import org.junit.Test;
-import utils.Settings;
 import java.util.List;
 
 public class UserDaoTest {
@@ -37,5 +36,11 @@ public class UserDaoTest {
 
     @Test
     public void getImgPathTest() {
+    }
+
+    @Test
+    public void getImagePath() {
+        int user_id = 100000;
+        dao.setUserImage(100000,"/home/harden/2.jpeg");
     }
 }

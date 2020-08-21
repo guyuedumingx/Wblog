@@ -192,4 +192,5 @@ public class EssayDaoImpl implements EssayDao {
         JDBCUtils.setInt(pstmt,3,id);
         JDBCUtils.update(pstmt);
     }
+
 }

@@ -4,6 +4,7 @@ import domain.Essay;
 import org.junit.Test;
 import service.EssayService;
 import service.impl.EssayServiceImpl;
+import utils.Settings;
 
 import java.util.List;
 
@@ -30,5 +31,9 @@ public class EssayServiceTest {
     @Test
     public void getTotalNumber() {
         int essaysTotalNumber = service.getEssaysTotalNumber();
+    }
+    @Test
+    public void getPath(){
+        System.out.println(Settings.img_path);
     }
 }
