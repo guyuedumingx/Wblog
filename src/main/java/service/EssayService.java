@@ -20,4 +20,5 @@ public interface EssayService {
     public List<Essay> getStarEssays(int user_id);
     public boolean delEssay(int essay_id);
     public List<Essay> getEssayList(String content);
+    public Essay updateEssay(int id,Essay essay);
 }

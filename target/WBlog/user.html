@@ -12,6 +12,8 @@
       <link rel="stylesheet" href="/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css">
     <script>
         function setExit() {
+            $("list-group a").removeClass("active")
+            $("#exit").toggleClass("active")
             $.get("userServlet",{method:"exit"})
         }
         $.get("userServlet", {method:"index"}, function (data) {
@@ -24,6 +26,9 @@
             getStar();
         },"json");
         function getStar() {
+            $("#box").empty()
+            $(".list-group a").removeClass("active")
+            $("#star").addClass("active")
             $.get("userServlet",{method:"star"}, function (list) {
                 var info = jQuery.parseJSON(list);
                 for(i in info) {
@@ -68,6 +73,35 @@
                     }
                 },"json")
             })
+            $("#article").click(function () {
+                $("#box").empty()
+                $(".list-group a").removeClass("active")
+                $("#article").addClass("active")
+                $.get("userServlet",{method:"article"},function (back) {
+                    $("#box").empty()
+                    var infos = jQuery.parseJSON(back);
+                    for(i in infos) {
+                        var essay = infos[i];
+                        var title = "<h4>" + essay.title + "</h4>"
+                        var content = "<p>" + fold(essay.content) + "</p>"
+                        var id = essay.essay_id
+                        var div = '<div id="' + id + '"></div>'
+                        var essayDiv = '<div class="essay" style="cursor:pointer"></div>'
+                        $("#box").append(div)
+                        $("#" + id).append(essayDiv)
+                        $("#" + id + " :first").append("<hr>")
+                        $("#" + id + " :first").append(title)
+                        $("#" + id + " :first").append(content)
+                        edit(id)
+                    }
+                })
+            })
+        }
+        function edit(id) {
+            $("#"+id).click(function () {
+                $.get("essayServlet",{method:"setEditEssay",id:id})
+                window.location.href="editor.html"
+            })
         }
     </script>
   </head>
@@ -109,7 +143,7 @@
                     <img id="icon" src="#" alt="" style="margin-bottom: 10px;" class=" list-group-item-action">
                     <p id="email" class="small d-inline"></p>
                 </div>
-                <a href="#" class="list-group-item list-group-item-action active">
+                <a id="star" href="#" onclick="getStar()" class="list-group-item list-group-item-action active">
                     Star
                 </a>
                 <a href="editor.html" class="list-group-item list-group-item-action">
@@ -118,8 +152,8 @@
                 <a href="#" class="list-group-item list-group-item-action ">
                     Fork
                 </a>
-                <a href="#" class="list-group-item list-group-item-action ">
-                   Chat 
+                <a id="article" href="#" class="list-group-item list-group-item-action ">
+                  My Article
                 </a>
                 <a href="#" class="list-group-item list-group-item-action ">
                    Settings

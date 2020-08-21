@@ -117,6 +117,15 @@ public class EssayDaoImpl implements EssayDao {
     }
 
     @Override
+    public boolean delStar(int essay_id) {
+        String sql = "delete from star where essay_id = ?";
+        pstmt = JDBCUtils.getStatement(sql);
+        JDBCUtils.setInt(pstmt,1,essay_id);
+        count = JDBCUtils.update(pstmt);
+        return count== 0 ? false : true;
+    }
+
+    @Override
     public int getStar(int essay_id) {
         String sql = "select count(user_id) star from star where essay_id = ?";
         pstmt = JDBCUtils.getStatement(sql);
@@ -172,5 +181,15 @@ public class EssayDaoImpl implements EssayDao {
         JDBCUtils.setInt(pstmt,1,essay_id);
         count = JDBCUtils.update(pstmt);
         return count== 0 ? false : true;
+    }
+
+    @Override
+    public void updateEssay(int id, Essay essay) {
+        String sql = "update essay set title = ?, content = ?, update_time = null where essay_id = ?";
+        pstmt = JDBCUtils.getStatement(sql);
+        JDBCUtils.setString(pstmt,1,essay.getTitle());
+        JDBCUtils.setString(pstmt,2,essay.getContent());
+        JDBCUtils.setInt(pstmt,3,id);
+        JDBCUtils.update(pstmt);
     }
 }

@@ -37,7 +37,5 @@ public class UserDaoTest {
 
     @Test
     public void getImgPathTest() {
-        String url = Settings.original_img_url;
-        String path = Settings.img_path;
     }
 }

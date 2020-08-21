@@ -15,12 +15,10 @@ public class UserServiceTest {
 
     @Test
     public void addUserTest() {
-       service.addUser(name,email,password);
     }
 
     @Test
     public void delUserTest() {
-        service.delUser(new UserDaoImpl().getUser(email).getUser_id());
     }
 
     @Test

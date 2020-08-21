@@ -12,18 +12,14 @@
             var data;
             $("#email").blur(function() {
                 var email = $(this).val()
-                if(isLegal(email)) {
-                    $.get("registerServlet", {method: "findEmail", email: email}, function (databack) {
-                        data = databack
-                        if (data.isExsit) {
-                            $("#email").attr("class", "form-control bg-danger")
-                        } else {
-                            $("#email").attr("class", "form-control bg-success")
-                        }
-                    }, "json")
-                }else {
-                    alert("You email address is not legal")
-                }
+                $.get("registerServlet",{method:"findEmail",email:email},function(databack) {
+                    data = databack
+                    if(data.isExsit) {
+                        $("#email").attr("class","form-control bg-danger")
+                    } else {
+                        $("#email").attr("class","form-control bg-success")
+                    }
+                },"json")
             })
             $("#submit").click(function () {
                 var email = $("#email").val()
@@ -43,10 +39,6 @@
                 }
             })
         });
-        function isLegal(email) {
-            var checkEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-            return checkEmail.test(email)
-        }
     </script>
 </head>
 <body>

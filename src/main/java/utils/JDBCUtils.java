@@ -26,12 +26,16 @@ public class JDBCUtils {
         }
     }
 
+    private static ThreadLocal<Connection> tol = new ThreadLocal<Connection>();
     public static Connection getConnection() {
-        Connection conn = null;
-        try {
-            conn = ds.getConnection();
-        } catch (SQLException e) {
-           e.printStackTrace();
+        Connection conn = tol.get();
+        if(conn==null) {
+            try {
+                conn = ds.getConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            tol.set(conn);
         }
         return conn;
     }
@@ -49,16 +53,7 @@ public class JDBCUtils {
     }
 
     public static void close(Statement stmt) {
-        try {
-            close(stmt, stmt.getConnection());
-        } catch (SQLException e) {
             close(null, stmt, null);
-            e.printStackTrace();
-        }
-    }
-
-    public static void close(Statement stmt, Connection conn) {
-        close(null, stmt,conn);
     }
 
     public static void close(ResultSet rs) {

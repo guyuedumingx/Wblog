@@ -53,6 +53,19 @@ public class EssayServlet extends BaseSerlvet {
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getWriter(),map);
     }
+    public void setEditEssay(HttpServletRequest request,HttpServletResponse response)throws IOException {
+       HttpSession session = request.getSession();
+       int id = Integer.valueOf(request.getParameter("id"));
+       session.setAttribute("editEssay",id);
+    }
+    public void getEditEssay(HttpServletRequest request,HttpServletResponse response)throws IOException {
+        EssayService service = new EssayServiceImpl();
+        response.setCharacterEncoding("UTF-8");
+        int id = (int)request.getSession().getAttribute("editEssay");
+        Essay essayFromId = service.getEssayFromId(id);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(response.getWriter(),essayFromId);
+    }
     public void getEssays(HttpServletRequest request,HttpServletResponse response)throws IOException {
         response.setCharacterEncoding("UTF-8");
         EssayService service = new EssayServiceImpl();

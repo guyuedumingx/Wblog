@@ -12,24 +12,25 @@
         <script src="/lib/editor.md/editormd.min.js"></script>
         <script type="text/javascript">
             var testEditor;
+            var id = -1;
             $(function() {
                 testEditor = editormd("test-editormd", {
                     width   : "90%",
                     height  : 640,
                     syncScrolling : "single",
                     saveHTMLToTextarea : true,
+                    htmlDecode : true,   
                     path    : "/lib/editor.md/lib/",
                 });
 
                 $("#get-html-btn").click(function() {
                     var essay = testEditor.getHTML()
                     var title = $("#title").val()
-                    alert("test")
                     if(essay=='' || title=='') {
                         alert("something empty")
                     }
                     else {
-                        $.post("addEssayServlet",{title:title,essay:essay},function (data) {
+                        $.post("addEssayServlet",{title:title,essay:essay,id:id},function (data) {
                             if(data.isSuccess) {
                                 window.location.href = "show_article.html"
                             } else {
@@ -39,6 +40,15 @@
                     }
                 });
             });
+            $.get("essayServlet",{method:"getEditEssay"},function(data){
+              if(data!=null){
+                  id = data.essay_id
+                var title = data.title
+                var content = data.content
+                $("#title").val(title)
+                $("#content").text(content)
+              }
+            },"json")
 
         </script>
     </head>
@@ -81,7 +91,7 @@
     </div>
     </div>
     <div id="test-editormd">
-        <textarea style="display:none;"></textarea>
+        <textarea id="content" style="display:none;"></textarea>
     </div>
     </body>
 </html>

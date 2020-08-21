@@ -4,14 +4,16 @@ import dao.EssayDao;
 import dao.impl.EssayDaoImpl;
 import domain.Essay;
 import service.EssayService;
+import utils.JDBCUtils;
+
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class EssayServiceImpl implements EssayService {
     EssayDao dao = new EssayDaoImpl();
+    Connection conn;
 
     @Override
     public Essay getEssayFromId(int essay_id) {
@@ -109,11 +111,51 @@ public class EssayServiceImpl implements EssayService {
 
     @Override
     public boolean delEssay(int essay_id) {
-        return dao.delEssay(essay_id);
+        conn = JDBCUtils.getConnection();
+        boolean flag = false;
+        try {
+            conn.setAutoCommit(false);
+            boolean b = dao.delEssay(essay_id);
+            boolean b1 = dao.delStar(essay_id);
+            conn.commit();
+            conn.setAutoCommit(true);
+            flag = true;
+        }catch (Exception e) {
+            try {
+                conn.rollback();
+            }catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }finally {
+            JDBCUtils.close(null,null,conn);
+        }
+        return flag;
     }
 
     @Override
     public List<Essay> getEssayList(String content) {
         return dao.getEssayList(content);
+    }
+
+    @Override
+    public Essay updateEssay(int id, Essay essay) {
+        Essay backEssay = null;
+        Connection conn = JDBCUtils.getConnection();
+        try {
+            conn.setAutoCommit(false);
+            dao.updateEssay(id, essay);
+            backEssay = dao.getEssay(id);
+            conn.commit();
+            conn.setAutoCommit(true);
+        }catch (Exception e) {
+            try {
+                conn.rollback();
+            }catch (Exception e1) {
+                e.printStackTrace();
+            }
+        }finally {
+            JDBCUtils.close(null,null,conn);
+        }
+       return backEssay;
     }
 }

@@ -65,4 +65,13 @@ public class UserServlet extends BaseSerlvet {
         UserService service = new UserServiceImpl();
         service.delUser(id);
     }
+    public void article(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("content-type","text/html;charset=UTF-8");
+        HttpSession session = request.getSession();
+        User user = (User)session.getAttribute("user");
+        List<Essay> starEssays = new EssayServiceImpl().getEssays(user.getUser_id());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(response.getWriter(),starEssays);
+    }
 }

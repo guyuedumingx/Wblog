@@ -18,7 +18,7 @@ public class EssayServiceTest {
 
     @Test
     public void getEssayTest() {
-        Essay essayFromId = service.getEssayFromId(100000);
+        Essay essayFromId = service.getEssayFromId(100069);
         System.out.println(essayFromId.getContent());
     }
 
@@ -30,6 +30,5 @@ public class EssayServiceTest {
     @Test
     public void getTotalNumber() {
         int essaysTotalNumber = service.getEssaysTotalNumber();
-        System.out.println(essaysTotalNumber);
     }
 }

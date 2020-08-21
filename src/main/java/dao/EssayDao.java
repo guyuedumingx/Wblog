@@ -15,6 +15,7 @@ public interface EssayDao {
     public int addEssay(Essay essay) throws SQLException;
     public int getStar(int essay_id);
     public boolean addStar(int essay_id, int user_id);
+    public boolean delStar(int essay_id);
     public boolean delStar(int essay_id, int user_id);
     public boolean addFavorite(int essay_id, int favorite_id);
     public List<Integer> getNext(int essay_id);
@@ -22,4 +23,5 @@ public interface EssayDao {
     public List<Integer> getStarEssaysList(int user_id);
     public boolean delEssay(int essay_id);
     public List<Essay> getEssayList(String content);
+    public void updateEssay(int id, Essay essay);
 }

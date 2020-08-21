@@ -18,16 +18,21 @@ import java.util.Map;
 @WebServlet("/addEssayServlet")
 public class AddEssayServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String content = request.getParameter("essay");
-        String title = request.getParameter("title");
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
         Map<String,Object> map = new HashMap<>();
+        EssayService service = new EssayServiceImpl();
         Essay essayBack = null;
+        String content = request.getParameter("essay");
+        String title = request.getParameter("title");
+        int id = Integer.valueOf(request.getParameter("id"));
+        Essay essay = new Essay(user.getUser_id(),title,content);
         if(user != null) {
-            Essay essay = new Essay(user.getUser_id(),title,content);
-            EssayService service = new EssayServiceImpl();
-            essayBack = service.addEssay(essay);
+            if(id!=-1){
+                essayBack = service.updateEssay(id,essay);
+            }else {
+                essayBack = service.addEssay(essay);
+            }
             map.put("isSuccess", essayBack==null?false:true);
         }else {
             map.put("isSuccess",false);
